@@ -15,6 +15,7 @@ library(ggplot2)
 library(dplyr)
 library(knitr)
 library(scales)
+library(colorBlindness)
 
 data_breach <- read.csv("data/DataBreaches(2004-2021).csv")
 ```
@@ -49,7 +50,8 @@ data_breach %>%
   slice_max(order_by = tot_lost, n = 10) %>%
   ggplot(aes(fct_rev(fct_reorder(Organization.type, tot_lost)),
              tot_lost,
-             fill = Organization.type)) + 
+             fill = Organization.type)) +
+  scale_fill_manual(values=Blue2DarkRed12Steps) +
   geom_bar(stat = "identity") +
   theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
   scale_y_continuous(labels = label_number(suffix = " B", scale = 1e-9)) +
@@ -80,6 +82,7 @@ method_percentage %>%
   ggplot(aes(fct_rev(fct_reorder(Method, percentage)),
              percentage,
              fill = Method)) +
+  scale_fill_manual(values=Blue2DarkRed12Steps) +
   geom_col(position = "dodge") +
   theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
   xlab("Organization Type") +
